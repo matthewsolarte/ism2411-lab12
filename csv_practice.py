@@ -13,6 +13,7 @@
 #    history builds up over time and nothing gets overwritten.
 
 import csv
+from datetime import datetime
 
 
 # Exercise 1
@@ -109,3 +110,12 @@ with open("data/sales.csv") as f:
             summary[product] = revenue
 for product in sorted(summary):
     print(f"{product}: ${summary[product]:.2f}")
+
+
+# Exercise 8
+print()
+print("Exercise 8: append log")
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+with open("data/run_log.txt", "a") as log:
+    log.write(f"{timestamp} - Total revenue: ${total_revenue:.2f}\n")
+print("Added a line to data/run_log.txt")
