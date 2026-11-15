@@ -75,3 +75,37 @@ with open("data/sales.csv") as infile, open("data/cleaned.csv", "w", newline="")
             writer.writerow([row[0], f"{price:.2f}", quantity, f"{line_total:.2f}"])
             written_count = written_count + 1
 print(f"Wrote {written_count} of {original_count} rows to data/cleaned.csv")
+
+
+# Exercise 6
+print()
+print("Exercise 6: DictReader")
+dict_total = 0
+with open("data/sales.csv") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        price = float(row["price"])
+        quantity = int(row["quantity"])
+        dict_total = dict_total + price * quantity
+print(f"DictReader total revenue: ${dict_total:.2f}")
+print("Matches Exercise 4:", round(dict_total, 2) == round(total_revenue, 2))
+# csv.reader gives each row as a list, so I have to remember that price is
+# row[1]. csv.DictReader gives each row as a dictionary using the header, so
+# row["price"] is easier to read and still works if the columns move around.
+
+
+# Exercise 7
+print()
+print("Exercise 7: summary by product")
+summary = {}
+with open("data/sales.csv") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        product = row["product"]
+        revenue = float(row["price"]) * int(row["quantity"])
+        if product in summary:
+            summary[product] = summary[product] + revenue
+        else:
+            summary[product] = revenue
+for product in sorted(summary):
+    print(f"{product}: ${summary[product]:.2f}")
